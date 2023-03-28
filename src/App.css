@@ -3,15 +3,47 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    max-width: 800px;
 }
 
 main {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 form {
     align-items: center;
     display: flex;
     justify-content: center;
+}
+
+.movies {
+    list-style: none;
+    display: grid;
+    margin: 0;
+    padding: 30px 0;
+    width: 100%;
+    
+    grid-template-columns:   repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.movie {
+    text-align: center;
+}
+
+.movie h3, .movie p {
+    margin: 0;
+}
+
+.movie h3 {
+    height: 50px;
+}
+
+.movie img {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 16px;
 }
