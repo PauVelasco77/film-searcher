@@ -1,9 +1,10 @@
 import './App.css'
-import responseMovies from './mocks/avengers-results.json'
+import { useRef } from 'react'
+import { Movies } from './components/Movies'
+import { useMovies } from './hooks/useMovies'
 
 function App () {
-  const movies = responseMovies.Search
-  const hasmovies = movies?.length > 0
+  const { movies } = useMovies()
 
   return (
     <div className='page'>
@@ -17,23 +18,7 @@ function App () {
       </header>
 
       <main>
-        Search results
-
-        {hasmovies
-          ? (
-            <ul>
-              {
-                movies.map(movie => (
-                  <li key={movie.imdbID}>
-                    <h3>{movie.Title}</h3>
-                    <p>{movie.Year}</p>
-                    <img src={movie.Poster} alt={movie.Title} />
-                  </li>
-                ))
-              }
-            </ul>
-            )
-          : (<p>No se encontraron resultados</p>)}
+        <Movies movies={movies} />
       </main>
     </div>
   )
