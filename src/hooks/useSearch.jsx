@@ -14,6 +14,7 @@ export function useSearch () {
       return setError('No se ha introducido ninguna película')
     }
     if (search.match(/\d+$/)) {
+      console.log('search vacio')
       return setError('No se puede buscar una pelicula con un numero')
     }
     if (search.length < 3) {

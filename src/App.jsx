@@ -4,18 +4,20 @@ import { useMovies } from './hooks/useMovies'
 import { useSearch } from './hooks/useSearch'
 
 function App () {
-  const { movies } = useMovies()
-  const { search, error, setSearch } = useSearch()
+  const { search, error: searchError, setSearch } = useSearch()
+  const { movies, getMovies, loading, error } = useMovies({ search })
+
+  const err = searchError || error
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    getMovies()
     console.log({ search })
   }
 
   const handleChange = (e) => {
-    const newQuery = e.target.value
-    if (newQuery.startsWith(' ')) return
-    console.log({ newQuery })
+    // const newQuery = e.target.value
+    // if (newQuery.startsWith(' ')) return
     setSearch(e.target.value)
   }
 
@@ -28,11 +30,11 @@ function App () {
           <input onChange={handleChange} name='query' value={search} type='text' placeholder='Avengers, Star Wars, The Matrix...' />
           <button type='submit'>Buscar</button>
         </form>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {err && <p style={{ color: 'red' }}>{err}</p>}
       </header>
 
       <main>
-        <Movies movies={movies} />
+        {loading ? <p>CARGANDO</p> : <Movies movies={movies} />}
       </main>
     </div>
   )

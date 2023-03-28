@@ -1,14 +1,25 @@
-import responseMovies from '../mocks/avengers-results.json'
+import { useRef, useState } from 'react'
+import { searchMovies } from '../services/moves'
+export function useMovies ({ search }) {
+  const [movies, setMovies] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const previousSearch = useRef(search)
 
-export function useMovies () {
-  const movies = responseMovies.Search
+  const getMovies = async () => {
+    if (previousSearch.current === search) return
+    try {
+      setLoading(true)
+      setError(null)
+      previousSearch.current = search
+      const newMovies = await searchMovies({ search })
+      setMovies(newMovies)
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
-  const mappedMovies = movies?.map((movie) => ({
-    id: movie.imdbID,
-    title: movie.Title,
-    year: movie.Year,
-    poster: movie.Poster
-  }))
-
-  return { movies: mappedMovies }
+  return { movies, loading, error, getMovies }
 }
